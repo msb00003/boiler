@@ -165,7 +165,7 @@ def get_targets() -> Tuple[Target, Target]:
     current_datetime = datetime.now()
     transitions = parse_data_to_transitions()
     current_target = [target for target in transitions if target.transition < current_datetime][-1]
-    next_target = [target for target in transitions if target > current_datetime][1]
+    next_target = [target for target in transitions if target.transition > current_datetime][1]
 
     return current_target, next_target
 

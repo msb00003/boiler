@@ -1,5 +1,17 @@
 from handlers.timing import Target
 
+
+def write(string):
+    print(string)
+
+
+def _render_targets(current_target: Target, next_target: Target, current_temperate: float):
+    write('Now: {0} {1}, \r\n'.format(current_target.transition.strftime("%a"), current_target.period))
+    write('Target: {0}°C\r\n'.format(current_target.target))
+    write('Actual: {0}°C\r\n'.format(current_temperate))
+    write('Next: {0} {1}°C'.format(next_target.transition.strftime("%H:%M"), next_target.target))
+
+
 if True:
     from RPLCD.i2c import CharLCD
 
@@ -8,15 +20,16 @@ if True:
                   auto_linebreaks=True, backlight_enabled=True)
 
 
+    def write(string):
+        lcd.write_string(string)
+
+
     def render_targets(current_target: Target, next_target: Target, current_temperate: float):
         lcd.clear()
-        lcd.write_string(f'Now: {current_target.transition.strftime("%a")} {current_target.period}\r\n')
-        lcd.write_string(f'Target: {current_target.target}°C\r\n')
-        lcd.write_string(f'Actual: {current_temperate}°C\r\n')
-        lcd.write_string(f'Next: {next_target.transition.strftime("%H:%M")} {next_target.target}°C')
+        _render_targets(current_target, next_target, current_temperate)
 else:  # testing locally, need to handle better
-    def render_targets(_: Target, __: Target):
-        pass
+    def render_targets(current_target: Target, next_target: Target, current_temperate: float):
+        _render_targets(current_target, next_target, current_temperate)
 
-# lcd.backlight_enabled = False
+    # lcd.backlight_enabled = False
 # lcd.backlight_enabled = True
