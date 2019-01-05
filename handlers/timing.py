@@ -1,14 +1,8 @@
 from datetime import datetime, timedelta, date, time
+from typing import Tuple
 
 from tornado.escape import url_unescape
 from tornado.web import RequestHandler
-
-
-class Target:
-    def __init__(self, transition: datetime, target: float) -> None:
-        self.transition = transition
-        self.target = target
-
 
 data = {
     "Monday": {
@@ -140,6 +134,13 @@ data = {
 }
 
 
+class Target:
+    def __init__(self, transition: datetime, target: float, period) -> None:
+        self.transition = transition
+        self.target = target
+        self.period = period
+
+
 def parse_data_to_transitions():
     current_datetime = datetime.now()
     monday_of_week = date.fromtimestamp(
@@ -147,38 +148,26 @@ def parse_data_to_transitions():
     )
     # so cast all the inputs to datetime
 
-    transitions = {}
+    transitions = []
     for i, day in enumerate(data):
         for period in data[day]:
             current = data[day][period]
             hour, minute = current["time"].split(":")
             _time = datetime.combine(monday_of_week + timedelta(days=i), time(hour=int(hour), minute=int(minute)))
-            target = current["target"]
-            transitions[_time] = target
-
+            transitions.append(
+                Target(_time, float(current["target"]), period)
+            )
+    # TODO: verify order
     return transitions
 
 
-def get_target(transitions, current_datetime) -> Target:
-    previous = [_time for _time, target in transitions.items() if _time < current_datetime][-1]
-    target = float(transitions[previous])
-    return Target(transition=previous, target=target)
-
-
-def get_next(transitions, current_datetime) -> Target:
-    next = [_time for _time, target in transitions.items() if _time > current_datetime][1]
-    target = float(transitions[next])
-    return Target(transition=next, target=target)
-
-
-def get_time_target() -> float:
+def get_targets() -> Tuple[Target, Target]:
     current_datetime = datetime.now()
     transitions = parse_data_to_transitions()
-    current_target = get_target(transitions, current_datetime)
-    next_target = get_next(transitions, current_datetime)
-    # TODO: display
+    current_target = [target for target in transitions if target.transition < current_datetime][-1]
+    next_target = [target for target in transitions if target > current_datetime][1]
 
-    return current_target.target
+    return current_target, next_target
 
 
 class TimingHandler(RequestHandler):

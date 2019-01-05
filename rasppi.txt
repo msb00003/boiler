@@ -1,0 +1,33 @@
+"ssh" file in boot.
+wpa_supplicant.conf in boot
+```
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+country=GB
+
+network={
+        ssid="$SSID"
+        psk="$PASSWORD"
+        id_str="MB-Weefee"
+        priority=1
+        key_mgmt=WPA-PSK
+}
+
+```
+
+#sudo raspi-config (also need i2c)
+#sudo systemctl enable ssh
+#sudo systemctl start ssh
+
+ssh-keygen -t rsa -b 4096 -C "msb00003@gmail.com"
+cat /home/pi/.ssh/id_rsa.pub
+# add to github
+eval $(ssh-agent -s)
+ssh-add ~/.ssh/id_rsa
+
+
+sudo apt-get update
+sudo apt-get install -y git python3-pip i2c-tools python-smbus smbus2
+
+i2cdetect -y 1
+sudo pip3 install smbus2 RPLCD
