@@ -28,5 +28,5 @@ def make_app():
 
 if __name__ == "__main__":
     app = make_app()
-    app.listen(8082)
+    app.listen(80)
     IOLoop.current().start()
