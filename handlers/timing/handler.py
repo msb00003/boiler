@@ -8,6 +8,8 @@ import json
 
 from handlers.timing.generator import get_initial_data, days, periods
 
+TEMP_LEVELS = [str(level/10) for level in range(120, 300, 5)]
+
 DATA_FILE_NAME = "data.json"
 
 DATA = None
@@ -70,7 +72,10 @@ class TimingHandler(RequestHandler):
             with open(DATA_FILE_NAME, "w") as fw:
                 json.dump(DATA, fw, indent=4)
 
-        self.render("time_template.html", title="My title", data=DATA)
+        self._render_time_template()
 
     def get(self):
-        self.render("time_template.html", title="My title", data=DATA)
+        self._render_time_template()
+
+    def _render_time_template(self):
+        self.render("time_template.html", title="My title", data=DATA, temp_levels=TEMP_LEVELS)

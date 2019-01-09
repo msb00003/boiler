@@ -31,10 +31,10 @@
 
     {% for period_set in day_set["periods"] %}
     <div class="row form-group">
-        <div class="col-8">
+        <div class="col-6">
             <input type="text" readonly class="form-control-plaintext" value="{{ period_set['period_name'] }}">
         </div>
-        <div class="col-4">
+        <div class="col-6">
             <div class="row">
                 <div class="col-5">
                     <input type="time" min="0:00" max="24:00" value="{{period_set['time']}}" required name="{{day_set['day']}}-{{period_set['period_name']}}-time">
@@ -43,8 +43,11 @@
                     <span class="align-middle">to</span>
                 </div>
                 <div class="col-5">
-                    <select class="form-control" name="{{day_set['day']}}-{{period_set['period_name']}}-to" disabled>
-                        <option>{{period_set['target']}}</option>
+                    <select class="form-control" name="{{day_set['day']}}-{{period_set['period_name']}}-to">
+                        <option selected>{{period_set['target']}}</option>
+                        {% for temp_level in temp_levels %}
+                        <option>{{temp_level}}</option>
+                        {% end %}
                     </select>
                 </div>
             </div>
