@@ -21,29 +21,30 @@
             integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
             crossorigin="anonymous"></script>
 
-    <title>Hello, world!</title>
+    <title>Temperature controlled boiler thing of Maaaad</title>
+    <!-- Michael made this -->
 </head>
 <body>
 <form style="padding: 1em 1em 1em 1em" action="/" method="post">
-  {% for day, period_set in data.items() %}
-    <h4>{{ day }}</h4>
+  {% for day_set in data %}
+    <h4>{{ day_set["day"] }}</h4>
 
-    {% for period, period_data in period_set.items() %}
+    {% for period_set in day_set["periods"] %}
     <div class="row form-group">
         <div class="col-8">
-            <input type="text" readonly class="form-control-plaintext" value="{{ period }}">
+            <input type="text" readonly class="form-control-plaintext" value="{{ period_set['period_name'] }}">
         </div>
         <div class="col-4">
             <div class="row">
                 <div class="col-5">
-                    <input type="time" min="0:00" max="24:00" value="{{period_data['time']}}" required name="{{day}}-{{period}}-time">
+                    <input type="time" min="0:00" max="24:00" value="{{period_set['time']}}" required name="{{day_set['day']}}-{{period_set['period_name']}}-time">
                 </div>
                 <div class="col-2">
                     <span class="align-middle">to</span>
                 </div>
                 <div class="col-5">
-                    <select class="form-control" name="{{day}}-{{period}}-to" disabled>
-                        <option>{{period_data['target']}}</option>
+                    <select class="form-control" name="{{day_set['day']}}-{{period_set['period_name']}}-to" disabled>
+                        <option>{{period_set['target']}}</option>
                     </select>
                 </div>
             </div>

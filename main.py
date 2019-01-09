@@ -1,7 +1,7 @@
 from tornado.ioloop import PeriodicCallback, IOLoop
 from tornado.web import Application
 
-from handlers.timing import TimingHandler, get_targets
+from handlers.timing.handler import TimingHandler, get_targets
 from hardware.boiler import set_boiler_high, set_boiler_low
 from hardware.display import render_targets
 from hardware.temperature import get_current_temperature
