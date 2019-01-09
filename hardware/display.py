@@ -8,7 +8,7 @@ def write(string):
 
 
 def _render_targets(current_target: Target, next_target: Target, current_temperate: float):
-    write('Now: {0} {1}, \r\n'.format(current_target.transition.strftime("%a"), current_target.period)
+    write('Now: {0} {1} \r\n'.format(current_target.transition.strftime("%a"), current_target.period)
           + 'Target: {0}°C\r\n'.format(current_target.target)
           + 'Actual: {0}°C  \r\n'.format("%.3f" % current_temperate)  # extra spaces are to clear the line
           + 'Next: {0} {1}°C'.format(next_target.transition.strftime("%H:%M"), next_target.target))
