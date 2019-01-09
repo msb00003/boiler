@@ -10,7 +10,7 @@ def write(string):
 def _render_targets(current_target: Target, next_target: Target, current_temperate: float):
     write('Now: {0} {1}, \r\n'.format(current_target.transition.strftime("%a"), current_target.period)
           + 'Target: {0}°C\r\n'.format(current_target.target)
-          + 'Actual: {0:d}°C\r\n'.format(current_temperate)
+          + 'Actual: {0}°C\r\n'.format(str(current_temperate)[0:5])
           + 'Next: {0} {1}°C'.format(next_target.transition.strftime("%H:%M"), next_target.target))
     # TODO: nice bit of lag when rendering, might need to shift the cursor
 

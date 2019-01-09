@@ -10,7 +10,7 @@ def get_current_temperature() -> float:
 
 
 if not os.getenv("LOCAL"):
-    os.system('modprobe w1-gpio')
+    os.system('modprobe w1-gpio')  # TODO: handle outside of python as sudo?
     os.system('modprobe w1-therm')
 
     base_dir = '/sys/bus/w1/devices/'
